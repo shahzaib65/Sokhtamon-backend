@@ -46,8 +46,8 @@ const postSchema = new mongoose.Schema({
     default: false
   },
   price: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   },
   status: {
     type: Boolean,
