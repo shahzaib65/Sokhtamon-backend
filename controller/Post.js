@@ -27,6 +27,7 @@ const uploadPost = async (req, res) => {
         city: req.body.city,
         state: req.body.state,
         username: req.body.username,
+        price:req.body.price,
         email: req.body.email,
         description: req.body.description,
         telephone: req.body.telephone,
