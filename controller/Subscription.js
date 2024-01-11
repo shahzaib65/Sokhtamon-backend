@@ -2,7 +2,6 @@ const subscriptin = require("../model/subCategoryModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const CheckoutSession = async (req, res) => {
   try {
-    console.log(req.body);
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
@@ -18,8 +17,8 @@ const CheckoutSession = async (req, res) => {
             quantity: item.quantity
           }
         }),
-        success_url: "https://sokhtamon-backend-production.up.railway.app/success",
-        cancel_url: "https://sokhtamon-backend-production.up.railway.app/cancel"
+        success_url: "http://localhost:5000/success",
+        cancel_url: "http://localhost:5000/cancel"
       });
       res.json({url: session.url})
   } catch (error) {
