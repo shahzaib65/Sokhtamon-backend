@@ -31,6 +31,7 @@ const data = await textflow.sendSMS("+923184427163", "Dummy message text...");
 
 const loginUser = async (req, res) => {
   const {email} = req.body
+  console.log(email)
   const user = await userModel.findOne({ email: email });
 //  const user = await userModel.findOne({
 //   $or: [{ email: email }, { mobile_number: mobile }],
@@ -55,7 +56,7 @@ const loginUser = async (req, res) => {
       } else {
         res
           .status(200)
-          .json("check your email" );
+          .json("проверьте свою электронную почту" );
       }
     });
 
@@ -66,7 +67,7 @@ const loginUser = async (req, res) => {
       from: process.env.SMTP_MAIL,
       to: email,
       subject: "Отп код от Сохтамон",
-      text: `Your otp is: ${otp} will expire after one minute`,
+      text: `Ваш отп: ${otp} истекает через 10 минут`,
     };
     transporter.sendMail(mailOption, function (error) {
       if (error) {
@@ -74,7 +75,7 @@ const loginUser = async (req, res) => {
       } else {
         res
           .status(200)
-          .json("check your email" );
+          .json("проверьте свою электронную почту" );
       }
     });
 
@@ -97,7 +98,7 @@ const verifyOtp = async (req, res) => {
   if (user) {
     const isExpired = isOTPExpired(user.updatedAt);
     if(isExpired){
-      res.status(404).json("Your otp is expired");
+      res.status(404).json("Срок действия вашего ОТП истек");
     }else{
     const data =  await userModel.findByIdAndUpdate(
         { _id: user._id },
@@ -112,7 +113,7 @@ const verifyOtp = async (req, res) => {
        res.status(200).json(token)
     }
   }else{
-    res.status(404).json("Otp not found")
+    res.status(404).json("Отп не найден")
   }
 };
 
