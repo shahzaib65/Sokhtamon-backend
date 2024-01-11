@@ -3,7 +3,12 @@ const userModel = require("../model/UserModel");
 const generateOTP = require("../service/generateOtp");
 const moment = require('moment');
 const nodemailer = require('nodemailer');
+require("../service/config")
+const firebase = require("firebase/compat/app");
+require("firebase/compat/auth");
+const textflow = require("textflow.js");
 
+textflow.useKey("5y6Ctjs5zDlCF0hL0Oj7F8gBk75IyikEGuvAJgz6Kh2HjCjENj0Vtv0eBKRyCmln5y6Ctjs5zDlCF0hL0Oj7F8gBk75IyikEGuvAJgz6Kh2HjCjENj0Vtv0eBKRyCmln");
 let transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
@@ -14,25 +19,25 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-//create token structure
-const createToken = (user) => {
-  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1m",
-  });
-};
+ const loginWithfirebaseOtp = async(req,res)=>{
+   const {mobile} = req.body;
+  // await firebase.auth().verifyPhoneNumber(mobile,null)
+//   var provider = new firebase.auth.PhoneAuthProvider();
+// provider.verifyPhoneNumber('+16505550101', null)
+//    res.json({ verificationId }); 
+const data = await textflow.sendSMS("+923184427163", "Dummy message text...");
+  res.json(data)
+ }
 
 const loginUser = async (req, res) => {
   const {email} = req.body
-  const {mobile} = req.body
- // const user = await userModel.findOne({ mobile_number: req.body.mobile });
-
- const user = await userModel.findOne({
-  $or: [{ email: email }, { mobile_number: mobile }],
-});
+  const user = await userModel.findOne({ email: email });
+//  const user = await userModel.findOne({
+//   $or: [{ email: email }, { mobile_number: mobile }],
+// });
   if (!user) {
     const otp = generateOTP();
-    const data = await userModel.create({
-      mobile_number: mobile,
+     await userModel.create({
       email: email,
       role: req.body.role,
       otp: otp,
@@ -54,8 +59,7 @@ const loginUser = async (req, res) => {
       }
     });
 
-    const token = createToken(data);
-    res.status(200).json(token);
+    
   } else {
     const otp = generateOTP();
     let mailOption = {
@@ -74,7 +78,7 @@ const loginUser = async (req, res) => {
       }
     });
 
-  const data =  await userModel.findByIdAndUpdate(
+ await userModel.findByIdAndUpdate(
       { _id: user._id },
       { $set: { otp: otp } },
       { new: true }
@@ -83,7 +87,7 @@ const loginUser = async (req, res) => {
 };
 
 function isOTPExpired(createdAt) {
-  const expirationTime = moment(createdAt).add(1, 'minute'); // OTP expires after 2 minutes
+  const expirationTime = moment(createdAt).add(10, 'minutes'); // OTP expires after 2 minutes
   return moment() > expirationTime;
 }
 
@@ -147,5 +151,6 @@ module.exports = {
   loginUser,
   verifyOtp,
   fetchUser,
-  checkAuth
+  checkAuth,
+  loginWithfirebaseOtp
 };
