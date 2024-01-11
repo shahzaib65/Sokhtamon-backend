@@ -14,7 +14,6 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-
 //create token structure
 const createToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET_KEY, {
@@ -56,7 +55,7 @@ const loginUser = async (req, res) => {
     });
 
     const token = createToken(data);
-    res.status(200).json({token });
+    res.status(200).json(token);
   } else {
     const otp = generateOTP();
     let mailOption = {
@@ -75,13 +74,11 @@ const loginUser = async (req, res) => {
       }
     });
 
-    await userModel.findByIdAndUpdate(
+  const data =  await userModel.findByIdAndUpdate(
       { _id: user._id },
       { $set: { otp: otp } },
       { new: true }
     );
-    const token = createToken(data);
-    res.status(200).json({token });
   }
 };
 
@@ -98,12 +95,17 @@ const verifyOtp = async (req, res) => {
     if(isExpired){
       res.status(404).json("Your otp is expired");
     }else{
-      await userModel.findByIdAndUpdate(
+    const data =  await userModel.findByIdAndUpdate(
         { _id: user._id },
         { $set: { otp: "" } },
         { new: true }
       );
-      res.status(200).json("Your otp verified");
+      const payload = {
+        id: data._id,
+        role: data.role,
+      };
+      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "24h" });
+       res.status(200).json(token)
     }
   }else{
     res.status(404).json("Otp not found")
@@ -126,18 +128,17 @@ const checkAuth = async(req,res)=>{
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized - Token missing' });
+    return res.status(401).json('Unauthorized - Token missing');
   }
-
-  jwt.verify(token, secretKey, (err, decoded) => {
+  jwt.verify(token,process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: 'Unauthorized - Invalid token' });
+      return res.status(401).json('Unauthorized - Invalid token');
     }
     // Token is valid
-    res.json({ message: 'Token is valid', decoded });
+    res.json({role: decoded.role,id: decoded.id});
   });
  } catch (error) {
-  re.status(500).json("Internal serveer error")
+  res.status(500).json({})
  }
 }
 
