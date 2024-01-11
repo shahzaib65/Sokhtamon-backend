@@ -2,6 +2,7 @@ const subscriptin = require("../model/subCategoryModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const CheckoutSession = async (req, res) => {
   try {
+    console.log(req.body);
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
