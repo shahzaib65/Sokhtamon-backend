@@ -14,18 +14,17 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+
 //create token structure
-const createToken = (_id) => {
-  return jwt.sign({ _id: _id }, process.env.JWT_SECRET_KEY, {
+const createToken = (user) => {
+  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET_KEY, {
     expiresIn: "24h",
   });
 };
 
 const loginUser = async (req, res) => {
-
   const {email} = req.body
   const {mobile} = req.body
-
  // const user = await userModel.findOne({ mobile_number: req.body.mobile });
 
  const user = await userModel.findOne({
@@ -56,9 +55,8 @@ const loginUser = async (req, res) => {
       }
     });
 
-    const token = createToken(data._id);
-    const role = data.role;
-    res.status(200).json({ token, role });
+    const token = createToken(data);
+    res.status(200).json({token });
   } else {
     const otp = generateOTP();
     let mailOption = {
@@ -77,14 +75,13 @@ const loginUser = async (req, res) => {
       }
     });
 
-    const token = createToken(user._id);
-    const role = user.role;
     await userModel.findByIdAndUpdate(
       { _id: user._id },
       { $set: { otp: otp } },
       { new: true }
     );
-    res.status(200).json({ token, role });
+    const token = createToken(data);
+    res.status(200).json({token });
   }
 };
 
@@ -124,8 +121,19 @@ const fetchUser = async(req,res)=>{
   }
 }
 
+const checkAuth = async(req,res)=>{
+ try {
+
+  
+ } catch (error) {
+  re.status(500).json("Internal serveer error")
+ }
+}
+
+
 module.exports = {
   loginUser,
   verifyOtp,
-  fetchUser
+  fetchUser,
+  checkAuth
 };

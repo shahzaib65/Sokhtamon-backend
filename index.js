@@ -3,10 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-app.use(express.json());
-app.use( cors({
-  exposedHeaders: ['X-Total-Count'],
-}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const connectToMongo = require('./db');
@@ -26,6 +23,10 @@ app.use(
 app.use("/api/category",require('./route/Category'));
 app.use("/api/post",require("./route/Post"));
 
+app.use( cors({
+  exposedHeaders: ['X-Total-Count'],
+}));
+app.use(express.json());
 
 app.listen(process.env.PORT,()=>{
     console.log("Server is connected with",process.env.PORT)
