@@ -18,7 +18,7 @@ let transporter = nodemailer.createTransport({
 //create token structure
 const createToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "24h",
+    expiresIn: "1m",
   });
 };
 
@@ -123,8 +123,19 @@ const fetchUser = async(req,res)=>{
 
 const checkAuth = async(req,res)=>{
  try {
+  const token = req.headers.authorization;
 
-  
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized - Token missing' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized - Invalid token' });
+    }
+    // Token is valid
+    res.json({ message: 'Token is valid', decoded });
+  });
  } catch (error) {
   re.status(500).json("Internal serveer error")
  }
