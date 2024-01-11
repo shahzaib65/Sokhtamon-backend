@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-app.use(cors())
+app.use(cors({origin: "*"}))
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,7 +12,9 @@ const connectToMongo = require('./db');
 app.use("/api/user", require('./route/Auth'));
 app.use("/api/subcategory",require("./route/SubCategory"));
 app.use("/api/contactus",require('./route/Contact'));
-app.use("/api/city",require("./route/City"))
+app.use("/api/city",require("./route/City"));
+app.use("/api/job",require("./route/Job"));
+app.use("/api/subscription",require("./route/Subscription"));
 
 // app.use( cors({
 //   exposedHeaders: ['X-Total-Count'],

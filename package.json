@@ -29,7 +29,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "stripe": "^14.9.0",
+    "stripe": "^14.11.0",
     "textflow.js": "^0.1.4"
   }
 }
