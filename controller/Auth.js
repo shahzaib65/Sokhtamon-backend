@@ -111,6 +111,7 @@ const verifyOtp = async (req, res) => {
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "24h" });
        res.status(200).json(token)
+       
     }
   }else{
     res.status(404).json("Отп не найден")
@@ -120,7 +121,7 @@ const verifyOtp = async (req, res) => {
 const fetchUser = async(req,res)=>{
   try {
     
-   const user = await userModel.find({});
+   const user = await userModel.find({_id: req.body.id});
    res.status(200).json({user});
 
   } catch (error) {

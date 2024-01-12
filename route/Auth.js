@@ -5,7 +5,7 @@ const router = express.Router();
 //login route
 router.post("/login",loginUser);
 router.post("/verifyOtp",verifyOtp)
-router.get("/fetch",fetchToken,fetchUser)
+router.get("/fetch",fetchUser)
 router.get("/check",checkAuth)
 router.post("/loginwithMobile",loginWithfirebaseOtp)
 
