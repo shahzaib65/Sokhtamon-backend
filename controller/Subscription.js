@@ -18,8 +18,8 @@ const CheckoutSession = async (req, res) => {
             quantity: item.quantity
           }
         }),
-        success_url: "https://sokhtamon-backend-production.up.railway.app/success",
-        cancel_url: "https://sokhtamon-backend-production.up.railway.app/cancel"
+        success_url: "https://sokhtamon-frontend.vercel.app/success",
+        cancel_url: "https://sokhtamon-frontend.vercel.app/cancel"
       });
       res.status(200).json({url: session.url})
   } catch (error) {
