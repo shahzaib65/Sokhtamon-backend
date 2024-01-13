@@ -21,7 +21,7 @@ const CheckoutSession = async (req, res) => {
         success_url: "https://sokhtamon-backend-production.up.railway.app/success",
         cancel_url: "https://sokhtamon-backend-production.up.railway.app/cancel"
       });
-      res.json({url: session.url})
+      res.status(200).json({url: session.url})
   } catch (error) {
     res.status(500).send(error.message)
   }
