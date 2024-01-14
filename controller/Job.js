@@ -49,7 +49,7 @@ const fetchJob = async (req, res) => {
     if (service) {
       query.service = { $gte: service };
     }
-    const jobs = await jobModel.find(query);
+    const jobs = await jobModel.find({city: city,service: service});
     res.status(200).json(jobs);
   }catch (error) {
     res.status(500).json(error.message);
