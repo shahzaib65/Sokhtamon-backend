@@ -40,6 +40,7 @@ const uploadJob = async (req, res) => {
 const fetchJob = async (req, res) => {
   try {
     const { city, service } = req.query;
+    console.log(req.query)
     const query = {};
 
     if (city) {
@@ -50,7 +51,7 @@ const fetchJob = async (req, res) => {
     }
     const jobs = await jobModel.find(query);
     res.status(200).json(jobs);
-  } catch (error) {
+  }catch (error) {
     res.status(500).json(error.message);
   }
 };
