@@ -1,22 +1,37 @@
 const mongoose = require("mongoose");
-const jobSchema = mongoose.Schema({
+const jobSchema = mongoose.Schema(
+  {
     service: {
-        type: String
+      type: String,
     },
     city: {
-        type: String
+      type: String,
     },
-    full_name:{
-        type: String
+    full_name: {
+      type: String,
+    },
+    job_url: {
+      type: String,
+    },
+    heading: { type: String },
+    description: {
+      type: String,
     },
     price: {
-        type: String
+      type: Number,
     },
     experience: {
-        type: String
+      type: String,
+    },
+    asset_id: {
+      type:String
+    },
+    public_id: {
+      type: String
     }
-},
-{
-  timestamps: true,
-});
-module.exports = mongoose.model("Job",jobSchema)
+  },
+  {
+    timestamps: true,
+  }
+);
+module.exports = mongoose.model("Job", jobSchema);

@@ -13,7 +13,7 @@ app.use("/api/user", require('./route/Auth'));
 app.use("/api/subcategory",require("./route/SubCategory"));
 app.use("/api/contactus",require('./route/Contact'));
 app.use("/api/city",require("./route/City"));
-app.use("/api/job",require("./route/Job"));
+
 app.use("/api/subscription",require("./route/Subscription"));
 
 // app.use( cors({
@@ -36,6 +36,7 @@ app.use(
 );
 app.use("/api/category",require('./route/Category'));
 app.use("/api/post",require("./route/Post"));
+app.use("/api/job",require("./route/Job"));
 
 
 
