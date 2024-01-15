@@ -1,16 +1,45 @@
 const contactusModel = require("../model/contactUsModel");
+const nodemailer = require('nodemailer');
+
+
+let transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.SMTP_MAIL, // generated ethereal user
+    pass: process.env.SMTP_PASSWORD, // generated ethereal password
+  },
+});
 
 const uploadContactUs = async (req, res) => {
     try {
     
-        const contact = await contactusModel.create({
-            email: req.body.email,
-          description: req.body.description,
-          telephone: req.body.telephone,
-          subject: req.body.subject
-        });
-        res.status(200).json({ data: contact });
-      
+  const{email,description,telephone,subject} = req.body;
+
+  let mailOption = {
+    from: process.env.SMTP_MAIL,
+    to: email,
+    subject: "Отправка новой контактной формы",
+    text: `Email: ${email}\nDescription: ${description}\nTelephone: ${telephone}\nSubject:${subject}`,
+  };
+
+  transporter.sendMail(mailOption, function (error) {
+    if (error) {
+      res.status(404).json(error);
+    } else {
+      res.status(200).json("проверьте свою электронную почту" );
+    }
+  });
+
+
+//   await contactusModel.create({
+//     email: req.body.email,
+//   description: req.body.description,
+//   telephone: req.body.telephone,
+//   subject: req.body.subject
+// });
+
     } catch (error) {
       res.status(500).json(error.message);
     }
