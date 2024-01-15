@@ -21,12 +21,20 @@ let transporter = nodemailer.createTransport({
 
  const loginWithfirebaseOtp = async(req,res)=>{
    const {mobile} = req.body;
-  // await firebase.auth().verifyPhoneNumber(mobile,null)
-//   var provider = new firebase.auth.PhoneAuthProvider();
-// provider.verifyPhoneNumber('+16505550101', null)
-//    res.json({ verificationId }); 
-const data = await textflow.sendSMS("+923184427163", "Dummy message text...");
-  res.json(data)
+   const user = await userModel.findOne({ mobile_number: mobile });
+   if(!user){
+    try {
+      await userModel.create({
+        mobile_number: mobile,
+        role: req.body.role
+      });
+      res.status(200).json("User registered")
+    } catch (error) {
+      res.status(500).json(error.message)
+    }
+   }else{
+    res.status(200).json("User login")
+   }
  }
 
 const loginUser = async (req, res) => {
