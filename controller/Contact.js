@@ -19,7 +19,7 @@ const uploadContactUs = async (req, res) => {
 
   let mailOption = {
     from: process.env.SMTP_MAIL,
-    to: email,
+    to: "sokhtamon@gmail.com",
     subject: "Отправка новой контактной формы",
     text: `Email: ${email}\nDescription: ${description}\nTelephone: ${telephone}\nSubject:${subject}\n Fullname: ${name}`,
   };
