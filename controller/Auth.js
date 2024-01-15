@@ -4,11 +4,8 @@ const generateOTP = require("../service/generateOtp");
 const moment = require('moment');
 const nodemailer = require('nodemailer');
 require("../service/config")
-const firebase = require("firebase/compat/app");
-require("firebase/compat/auth");
-const textflow = require("textflow.js");
 
-textflow.useKey("5y6Ctjs5zDlCF0hL0Oj7F8gBk75IyikEGuvAJgz6Kh2HjCjENj0Vtv0eBKRyCmln5y6Ctjs5zDlCF0hL0Oj7F8gBk75IyikEGuvAJgz6Kh2HjCjENj0Vtv0eBKRyCmln");
+
 let transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
