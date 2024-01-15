@@ -28,7 +28,7 @@ const uploadContactUs = async (req, res) => {
     if (error) {
       res.status(404).json(error);
     } else {
-      res.status(200).json("проверьте свою электронную почту" );
+      res.status(200).json("Сообщение успешно отправлено.");
     }
   });
 
