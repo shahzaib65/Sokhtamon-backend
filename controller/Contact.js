@@ -15,13 +15,13 @@ let transporter = nodemailer.createTransport({
 const uploadContactUs = async (req, res) => {
     try {
     
-  const{email,description,telephone,subject} = req.body;
+  const{email,description,telephone,subject,name} = req.body;
 
   let mailOption = {
     from: process.env.SMTP_MAIL,
     to: email,
     subject: "Отправка новой контактной формы",
-    text: `Email: ${email}\nDescription: ${description}\nTelephone: ${telephone}\nSubject:${subject}`,
+    text: `Email: ${email}\nDescription: ${description}\nTelephone: ${telephone}\nSubject:${subject}\n Fullname: ${name}`,
   };
 
   transporter.sendMail(mailOption, function (error) {
