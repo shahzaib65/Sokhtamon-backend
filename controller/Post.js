@@ -42,6 +42,8 @@ const uploadPost = async (req, res) => {
   }
 };
 
+
+
 const fetchPost = async(req,res)=>{
    try {
     let condition ={};
@@ -81,6 +83,20 @@ const fetchPost = async(req,res)=>{
      res.status(500).json(error.message)
    }
 }
+
+const fetchAllPosts = async(req,res)=>{
+  try {
+    
+    const model = await postModel.find();
+    res.status(200).json(model)
+
+  } catch (error) {
+    res.status(200).json(error.message)
+  }
+}
+
+
+
  const fetchPostById = async(req,res)=>{
   try {
 
@@ -123,6 +139,7 @@ module.exports = {
   fetchPost,
   fetchPostById,
   updatePost,
-  deletePost
+  deletePost,
+  fetchAllPosts
 
 };
