@@ -109,15 +109,16 @@ const verifyOtp = async (req, res) => {
         { $set: { otp: "",login: true } },
         { new: true }
       );
-      const payload = {
-        id: data._id,
-        role: data.role,
-        login: data.login
-      };
-      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-        expiresIn: "24h",
-      });
-      res.status(200).json(token);
+      res.status(200).json(data)
+      // const payload = {
+      //   id: data._id,
+      //   role: data.role,
+      //   login: data.login
+      // };
+      // const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      //   expiresIn: "24h",
+      // });
+      // res.status(200).json(token);
     }
   } else {
     res.status(404).json("Отп не найден");
