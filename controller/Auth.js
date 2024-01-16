@@ -125,24 +125,26 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-const fetchUser = async (req, res) => {
+const fetchUser = async(req, res) => {
   try {
     const{id} = req.params;
     const user = await userModel.findOne({ _id: id });
-    if(user.login === false){
-     await userModel.findByIdAndUpdate(
-        { _id: id },
-        { $set: { login: true }},
-        { new: true }
-      );
-    }else{
-      await userModel.findByIdAndUpdate(
-        { _id: id },
-        { $set: { login: false }},
-        { new: true }
-      );
-    }
-    res.status(200).json(user);
+      if(user.login === false){
+        const data =  await userModel.findByIdAndUpdate(
+          { _id: id },
+          { $set: { login: true }},
+          { new: true }
+        );
+        res.status(200).json(data);
+      }else{
+        
+      const data =  await userModel.findByIdAndUpdate(
+          { _id: id },
+          { $set: { login: false }},
+          { new: true }
+        );
+        res.status(200).json(data);
+      }
   } catch (error) {
     res.status(500).json(error.message);
   }
