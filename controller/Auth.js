@@ -129,22 +129,28 @@ const fetchUser = async(req, res) => {
   try {
     const{id} = req.params;
     const user = await userModel.findOne({ _id: id });
-      if(user.login === false){
-        const data =  await userModel.findByIdAndUpdate(
-          { _id: id },
-          { $set: { login: true }},
-          { new: true }
-        );
-        res.status(200).json(data);
-      }else{
-        
+    if(user){
       const data =  await userModel.findByIdAndUpdate(
-          { _id: id },
-          { $set: { login: false }},
-          { new: true }
-        );
-        res.status(200).json(data);
-      }
+        { _id: id },
+        { $set: { login: true }},
+        { new: true }
+      );
+      res.status(200).json(data);
+    }
+   
+
+
+      // if(user.login === false){
+      //   const data =  await userModel.findByIdAndUpdate(
+      //     { _id: id },
+      //     { $set: { login: true }},
+      //     { new: true }
+      //   );
+      //   res.status(200).json(data);
+      // }else{
+        
+     
+      // }
   } catch (error) {
     res.status(500).json(error.message);
   }
