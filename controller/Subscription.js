@@ -21,11 +21,16 @@ const CheckoutSession = async (req, res) => {
         success_url: "https://sokhtamon-frontend.vercel.app/success",
         cancel_url: "https://sokhtamon-frontend.vercel.app/cancel"
       });
+      console.log(session.payment_status)
       res.status(200).json({url: session.url})
   } catch (error) {
     res.status(500).send(error.message)
   }
 };
+
+
+
+
 
 module.exports = {
   CheckoutSession,

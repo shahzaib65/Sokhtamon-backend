@@ -52,6 +52,14 @@ const postSchema = new mongoose.Schema({
   status: {
     type: Boolean,
     default: false
+  },
+  subscription: {
+    type: String,
+    default: "free"
+  },
+  userId: {
+    type: String,
+    default: "userid"
   }
 },{
   timestamps: true
