@@ -106,7 +106,7 @@ const verifyOtp = async (req, res) => {
     } else {
       const data = await userModel.findByIdAndUpdate(
         { _id: user._id },
-        { $set: { otp: "",login: true } },
+        { $set: { otp: "" } },
         { new: true }
       );
       res.status(200).json(data)
