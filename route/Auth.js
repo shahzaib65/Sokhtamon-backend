@@ -8,7 +8,7 @@ router.post("/verifyOtp",verifyOtp)
 router.get("/fetch",fetchUser)
 router.get("/check",checkAuth)
 router.post("/loginwithMobile",loginWithfirebaseOtp)
-router.patch("/update",updateProfile)
+router.post("/update",updateProfile)
 
 
 

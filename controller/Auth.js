@@ -153,25 +153,27 @@ const checkAuth = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { id } = req.body;
-    if (!req?.files?.image)
-      return res.status(400).send("Please upload an image");
-    const file = req.files.image;
 
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      public_id: file.name,
-      resource_type: "image",
-      folder: "profile",
-    });
-    if (result) {
+    const { id } = req.body;
+    console.log(id);
+    // if (!req?.files?.image)
+    //   return res.status(400).json("Please upload an image");
+    // const file = req.files.image;
+
+    // const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    //   public_id: file.name,
+    //   resource_type: "image",
+    //   folder: "profile",
+    // });
+ //   if (result) {
       const data = await userModel.findByIdAndUpdate(
         { _id: id },
         {
           $set: {
             first_name: req.body.first,
             last_name: req.body.last,
-            profile_url: result.secure_url,
-            asset_id: result.asset_id,
+             profile_url: "",
+             asset_id: "",
             gender: req.body.gender,
             profile_complete: true,
             mobile_number: req.body.mobile
@@ -180,7 +182,7 @@ const updateProfile = async (req, res) => {
         { new: true }
       );
       res.status(200).json(data);
-    }
+  //  }
   } catch (error) {
     res.status(500).json(error);
   }
