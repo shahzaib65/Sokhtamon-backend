@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema(
     },
     subscription: {
       sub_id: String
+    },
+    login: {
+      type: Boolean,
+      default: false
     }
   },
   {

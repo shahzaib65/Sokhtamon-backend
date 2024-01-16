@@ -106,12 +106,13 @@ const verifyOtp = async (req, res) => {
     } else {
       const data = await userModel.findByIdAndUpdate(
         { _id: user._id },
-        { $set: { otp: "" } },
+        { $set: { otp: "",login: true } },
         { new: true }
       );
       const payload = {
         id: data._id,
         role: data.role,
+        login: data.login
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
         expiresIn: "24h",
@@ -125,7 +126,21 @@ const verifyOtp = async (req, res) => {
 
 const fetchUser = async (req, res) => {
   try {
-    const user = await userModel.find({ _id: req.body.id });
+    const{id} = req.body
+    const user = await userModel.findOne({ _id: id });
+    if(user.login === false){
+      await userModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: { login: true }},
+        { new: true }
+      );
+    }else{
+      await userModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: { login: false }},
+        { new: true }
+      );
+    }
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json(error.message);
@@ -144,12 +159,28 @@ const checkAuth = async (req, res) => {
         return res.status(401).json("Unauthorized - Invalid token");
       }
       // Token is valid
-      res.json({ role: decoded.role, id: decoded.id });
+      console.log(decoded)
+      res.json({ role: decoded.role, id: decoded.id,login: decoded.login });
     });
   } catch (error) {
-    res.status(500).json({});
+    res.status(500).json(error);
   }
 };
+
+ const logout = async(req,res)=>{
+  try {
+    const {id} = req.body
+    await userModel.findByIdAndUpdate(
+      { _id: id },
+      { $set: { login: false }},
+      { new: true }
+    );
+   res.status(200).json("Logout successfully")
+  } catch (error) {
+    res.status(500).json("Internal server error")
+  }
+ }
+
 
 const updateProfile = async (req, res) => {
   try {
@@ -194,5 +225,6 @@ module.exports = {
   fetchUser,
   checkAuth,
   loginWithfirebaseOtp,
-  updateProfile
+  updateProfile,
+  logout
 };
