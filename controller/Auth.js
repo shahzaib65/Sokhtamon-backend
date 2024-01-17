@@ -128,6 +128,7 @@ const verifyOtp = async (req, res) => {
 const fetchUser = async(req, res) => {
   try {
     const{id} = req.params;
+    
     const user = await userModel.findOne({ _id: id });
     if(user){
       const data =  await userModel.findByIdAndUpdate(

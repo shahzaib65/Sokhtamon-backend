@@ -56,7 +56,18 @@ const fetchJob = async (req, res) => {
   }
 };
 
+const fetchJobById = async(req,res)=>{
+  try {
+
+    const data = await jobModel.findOne({"_id": req.params.id})
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 module.exports = {
   uploadJob,
   fetchJob,
+  fetchJobById
 };
