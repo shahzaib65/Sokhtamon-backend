@@ -28,7 +28,8 @@ const uploadJob = async (req, res) => {
         description: req.body.description,
         job_url: result.secure_url,
         public_id: result.public_id,
-        asset_id: result.asset_id
+        asset_id: result.asset_id,
+        telephone: req.body.telephone
       });
       res.status(200).json("Job posted");
     }

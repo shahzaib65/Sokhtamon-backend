@@ -55,7 +55,7 @@ const postSchema = new mongoose.Schema({
   },
   subscription: {
     type: String,
-    default: "free"
+    default: "Стандартный"
   },
   userId: {
     type: String,
@@ -63,7 +63,7 @@ const postSchema = new mongoose.Schema({
   },
   plan: {
     type: String,
-    default: "free"
+    default: "Стандартный"
   }
 },{
   timestamps: true

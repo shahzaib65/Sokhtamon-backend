@@ -28,6 +28,9 @@ const jobSchema = mongoose.Schema(
     },
     public_id: {
       type: String
+    },
+    telephone: {
+      type: String
     }
   },
   {
