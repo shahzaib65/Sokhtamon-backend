@@ -60,6 +60,10 @@ const postSchema = new mongoose.Schema({
   userId: {
     type: String,
     default: "userid"
+  },
+  plan: {
+    type: String,
+    default: "default"
   }
 },{
   timestamps: true

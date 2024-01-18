@@ -1,23 +1,26 @@
 const mongoose = require("mongoose");
 const subscriptionSchema = new mongoose.Schema({
-  // user: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  // },
-  // paymentMethod: {
-  //   type: String,
-  //   required: true,
-  // },
-  // paymentStatus: {
-  //   type: String,
-  //   default: "pending",
-  // },
-  // status: {
-  //   type: String,
-  //   default: "pending",
-  // },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  postId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Posts"
+  },
+  paymentMode: {
+    type: String,
+  },
+  plan: {
+    type: String,
+    default: "free"
+  },
+  paymentStatus: {
+    type: String,
+    default: "pending",
+  },
   totalAmount: {
-    type: Number,
+    type: String,
   }
 },
 {

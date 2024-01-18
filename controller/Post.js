@@ -112,7 +112,7 @@ const fetchAllPosts = async(req,res)=>{
     const data = await postModel.findOne({_id: req.params.id });
        await postModel.findByIdAndUpdate(
         { _id: data._id },
-        { $set: { status: req.body.status} },
+        { $set: { plan: req.body.status} },
         { new: true }
       );
       res.status(200).json('Post has been updated');
