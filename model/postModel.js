@@ -63,7 +63,7 @@ const postSchema = new mongoose.Schema({
   },
   plan: {
     type: String,
-    default: "default"
+    default: "free"
   }
 },{
   timestamps: true
