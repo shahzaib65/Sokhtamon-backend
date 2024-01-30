@@ -8,20 +8,19 @@ cloudinary.config({
 
 const uploadCategory = async (req, res) => {
   try {
-    if (!req?.files?.image)
-      return res.status(400).send("Please upload an image");
-    const file = req.files.image;
+    // if (!req?.files?.image)
+    //   return res.status(400).send("Please upload an image");
+    // const file = req.files.image;
 
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      public_id: file.name,
-      resource_type: "image",
-      folder: "category",
-    });
+    // const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    //   public_id: file.name,
+    //   resource_type: "image",
+    //   folder: "category",
+    // });
 
     if (result) {
       const category = await categoryModel.create({
-        categoryName: req.body.name,
-        category_image_url: result.secure_url,
+        categoryName: req.body.name
       });
       res.status(200).json({ data: category });
     }
