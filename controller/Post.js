@@ -77,7 +77,7 @@ const fetchPost = async(req,res)=>{
 
    const data = await query.exec();
    res.set('X-Total-Count', totalDocs);
-   res.status(200).json({data})
+   res.status(200).json(data)
 
    } catch (error) {
      res.status(500).json(error.message)
